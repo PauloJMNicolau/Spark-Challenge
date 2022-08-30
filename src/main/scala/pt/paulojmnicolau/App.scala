@@ -32,14 +32,15 @@ object App {
 
  //Executa Atividade 1
  def atividade1(server : SparkSession): DataFrame ={
-  var df = CreateDataFrames(server).createUserReviewsDataFrame()
-    df.show()
-  return df
+  CreateDataFrames(server).createUserReviewsDataFrame()
  }
 
  //Executa Atividade 2
  def atividade2(server: SparkSession):DataFrame ={
-  CreateDataFrames(server).createUserReviewsDataFrame()
+  val df_2 = CreateDataFrames(server).createGooglePlayStoreBestAppDataFrame()
+  val fileWriter = new WriteFiles(server)
+  fileWriter.saveDataToCsv(df_2, "best_apps.csv", "§")
+  return df_2
  }
 
 }
