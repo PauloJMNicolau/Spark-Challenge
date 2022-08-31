@@ -1,6 +1,5 @@
 package pt.paulojmnicolau
 
-import org.apache.spark.sql.functions.col
 import org.apache.spark.sql.{DataFrame, SparkSession}
 
 /**
@@ -18,18 +17,18 @@ object App {
 
   //Cria DataFrame Atividade 2
   dataFrames = dataFrames :+ atividade2(server)
-  dataFrames(1).show()
+  dataFrames(1).show(500)
 
   //Cria DataFrame Atividade 3
   dataFrames = dataFrames :+ atividade3(server)
-  dataFrames(2).show()
+  dataFrames(2).show(500)
 
   //Cria DataFrame Atividade 4
   dataFrames = dataFrames :+ atividade4(server, dataFrames)
-  dataFrames(3).show()
+  dataFrames(3).show(500)
 
   //Cria DataFrame Atividade 5
-  atividade5(server, dataFrames).show()
+  atividade5(server, dataFrames).show(500)
   server.stop()                                 //Terminar Spark
  }
 
@@ -49,8 +48,8 @@ object App {
  //Executa Atividade 2
  def atividade2(server: SparkSession):DataFrame ={
   val df_2 = CreateDataFrames(server).createGooglePlayStoreBestAppDataFrame()
-  val fileWriter = new WriteFiles(server)
-  fileWriter.saveDataToCsv(df_2, "best_apps.csv", "§")
+  val fileWriter = WriteFiles(server)
+  fileWriter.saveDataToCsv(df_2, "best_apps", "§")
   df_2
  }
 
@@ -60,14 +59,19 @@ object App {
   df_3
  }
 
- def atividade4(server:SparkSession, dataFrames :Array[DataFrame] )={
+ //Executa Atividade 4
+ def atividade4(server:SparkSession, dataFrames :Array[DataFrame] ): DataFrame ={
   val df = CreateDataFrames(server).createJoinDataframe(dataFrames(0), dataFrames(2))
-  val fileWriter = new WriteFiles(server)
+  val fileWriter = WriteFiles(server)
   fileWriter.saveDataToParquet(df,"googleplaystore_cleaned","gzip")
   df
  }
 
+ //Executa Atividade 5
  def atividade5(server:SparkSession, dataFrames: Array[DataFrame]) : DataFrame ={
-   dataFrames(3).groupBy("App").pivot("Genres").count()
+  val df = CreateDataFrames(server).createEstatisticasDataFrame(dataFrames(3))
+  val fileWriter = WriteFiles(server)
+  fileWriter.saveDataToParquet(df,"googleplaystore_metrics","gzip")
+  df
  }
 }

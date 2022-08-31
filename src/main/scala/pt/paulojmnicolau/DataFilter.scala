@@ -1,18 +1,18 @@
 package pt.paulojmnicolau
 
 import com.google.common.collect.ImmutableMap
-import org.apache.spark.sql.catalyst.dsl.expressions.StringToAttributeConversionHelper
-import org.apache.spark.sql.functions.{array_distinct, coalesce, col, collect_list, isnull, lit, regexp_replace, sum, to_date, when}
-import org.apache.spark.sql.types.{ArrayType, DateType, DoubleType, LongType, StringType, StructField, StructType}
-import org.apache.spark.sql.{DataFrame, Row, SparkSession, TypedColumn, functions}
+import org.apache.spark.sql.functions._
+import org.apache.spark.sql.types.{DoubleType, LongType, StringType}
+import org.apache.spark.sql.{DataFrame, SparkSession, functions}
 /**
  * @author Paulo Nicolau (paulojmnicolau)
  */
 //Funções com todas as filtragens de dados para cada atividade
 case class DataFilter (private val server: SparkSession) {
 
+  //Filtragem para DataFrame 1
   def filterUserReviewsColumns(df :DataFrame): DataFrame = {
-    val colunas = MapeamentoColunas().getColunasUserReviews()
+    val colunas = MapeamentoColunas().getColunasUserReviews
     df.select(                              //Selecionar Colunas Especificas
       col(colunas(0)).cast(StringType),     //Atribuir tipo String na coluna
       col(colunas(1)).cast(DoubleType))     //Atribuir tipo Double na coluna
@@ -22,8 +22,9 @@ case class DataFilter (private val server: SparkSession) {
       .withColumnRenamed("avg(Sentiment_Polarity)", "Average_Sentiment_Polarity") // e atribui nome à coluna
   }
 
+  //Filtragem para Dataframe 2
   def filterGooglePlayStoreColumns(df: DataFrame): DataFrame = {
-    val colunas = MapeamentoColunas().getColunasGooglePlayStoreDf2()
+    val colunas = MapeamentoColunas().getColunasGooglePlayStoreDf2
     df.na
       .replace(
         colunas(2),ImmutableMap.of("NaN", "0.0"))           //Substitui NaN em 0.0
@@ -32,6 +33,7 @@ case class DataFilter (private val server: SparkSession) {
       .orderBy(col(colunas(2)).desc)                                //Ordena de forma descendente
   }
 
+  //Filtragem para DataFrame 3
   def filterGooglePlayStoreColumnsTyped(df: DataFrame): DataFrame = {
     df.select("*").na                                               //Seleciona todas as colunas
       //Remove caracteres indesejados na conversão para valores numéricos
@@ -51,11 +53,24 @@ case class DataFilter (private val server: SparkSession) {
         coalesce(functions.max(col("Price").cast(DoubleType)).multiply(0.9), lit(null)).as("Price"),
         coalesce(functions.max(col("Content Rating").cast(StringType)), lit(null)).as("Content_Rating"),
         coalesce(functions.array_distinct(collect_list(col("Genres").cast(StringType))), lit(null)).as("Genres"),
-        to_date(coalesce(functions.max(col("Last Updated")), lit(null)), "MM DD,yyyy").as("Last_Updated"),
+        functions.max(coalesce(to_date(col("Last Updated"), "MM DD,yyyy"), lit(null))).as("Last_Updated"),
         coalesce(functions.max(col("Current Ver").cast(StringType)), lit(null)).as("Current_Version"),
         coalesce(functions.max(col("Android Ver").cast(StringType)), lit(null)).as("Minimum_Android_Version")
       ).dropDuplicates()                                                             //Eliminar linhas duplicadas
       .orderBy(col("App").asc)                                              //Realiza ordenação dos dados
   }
+
+  //Filtragem para DataFrame 4
+  def filterEstatisticas(df: DataFrame) : DataFrame ={
+    df.withColumn("Genres", explode(col("Genres")))
+      .groupBy("Genres")
+      .agg(
+        count(col("Genres")).as("Count"),
+        avg(col("Rating")).as("Average_Rating"),
+        avg(col("Average_Sentiment_Polarity")).as("Average_Sentiment_Polarity")
+      )
+  }
+
 }
+
 
