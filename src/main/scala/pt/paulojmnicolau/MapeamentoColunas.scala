@@ -1,7 +1,9 @@
 package pt.paulojmnicolau
 
 import org.apache.spark.sql.types.{ArrayType, DateType, DoubleType, LongType, StringType, StructField, StructType}
-
+/**
+ * @author Paulo Nicolau (paulojmnicolau)
+ */
 //Mapeamento das colunas dos ficheiros para cada DataFrame
 case class MapeamentoColunas(){
 

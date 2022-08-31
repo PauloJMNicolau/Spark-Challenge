@@ -6,7 +6,9 @@ import org.apache.spark.sql.{DataFrame, Row, SparkSession}
 
 import java.io.{FileNotFoundException, IOException}
 
-
+/**
+ * @author Paulo Nicolau (paulojmnicolau)
+ */
 case class ReadFiles(private val server : SparkSession) {
 
   def getUserReviews: DataFrame = try {

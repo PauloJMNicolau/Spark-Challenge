@@ -5,7 +5,9 @@ import org.apache.spark.sql.catalyst.dsl.expressions.StringToAttributeConversion
 import org.apache.spark.sql.functions.{coalesce, col, collect_list, isnull, lit, regexp_replace, to_date, when}
 import org.apache.spark.sql.types.{ArrayType, DateType, DoubleType, LongType, StringType, StructField, StructType}
 import org.apache.spark.sql.{DataFrame, Row, SparkSession, TypedColumn, functions}
-
+/**
+ * @author Paulo Nicolau (paulojmnicolau)
+ */
 case class DataFilter (private val server: SparkSession) {
 
   def filterUserReviewsColumns(df :DataFrame): DataFrame = {

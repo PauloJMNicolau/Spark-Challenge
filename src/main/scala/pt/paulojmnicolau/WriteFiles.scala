@@ -3,6 +3,9 @@ package pt.paulojmnicolau
 import org.apache.spark.sql.functions.col
 import org.apache.spark.sql.{DataFrame, SaveMode, SparkSession}
 
+/**
+ * @author Paulo Nicolau (paulojmnicolau)
+ */
 case class WriteFiles(private val server : SparkSession) {
   def saveDataToCsv(df: DataFrame, fileName : String, delimiter:String)={
     val colunas = MapeamentoColunas().getColunasGooglePlayStoreDf2()

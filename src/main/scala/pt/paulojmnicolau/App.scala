@@ -4,7 +4,7 @@ import org.apache.spark.sql.functions.col
 import org.apache.spark.sql.{DataFrame, SparkSession}
 
 /**
- * @author ${user.name}
+ * @author Paulo Nicolau (paulojmnicolau)
  */
 object App {
 
@@ -19,14 +19,16 @@ object App {
   //Cria DataFrame Atividade 2
   dataFrames = dataFrames :+ atividade2(server)
   //dataFrames(1).show()
-
+/**
+ * @author Paulo Nicolau (paulojmnicolau)
+ */
   dataFrames = dataFrames :+ atividade3(server)
 //  dataFrames(2).show()
 
   dataFrames = dataFrames :+ atividade4(server, dataFrames)
   dataFrames(3).show()
 
-//  atividade5(server, dataFrames).show()
+  atividade5(server, dataFrames).show()
   server.stop()                                 //Terminar Spark
  }
 
@@ -64,11 +66,7 @@ object App {
   df
  }
 
- /*def atividade5(server:SparkSession, dataFrames: Array[DataFrame]) : DataFrame ={
-   dataFrames(3).select(col("Genres")).reduce((linha, linha1) =>{
-    println(linha)
-    println(linha1)
-    linha
-   })
- }*/
+ def atividade5(server:SparkSession, dataFrames: Array[DataFrame]) : DataFrame ={
+   dataFrames(3).
+ }
 }

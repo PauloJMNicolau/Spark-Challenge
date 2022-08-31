@@ -2,6 +2,9 @@ package pt.paulojmnicolau
 
 import org.apache.spark.sql.{DataFrame, SparkSession}
 
+/**
+ * @author Paulo Nicolau (paulojmnicolau)
+ */
 case class CreateDataFrames(server : SparkSession){
   //Objetos constantes de leitor e filtros
   val fileReader: ReadFiles = ReadFiles (server)

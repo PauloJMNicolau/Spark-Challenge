@@ -4,12 +4,12 @@
   <artifactId>Challenge</artifactId>
   <version>1.0-SNAPSHOT</version>
   <name>${project.artifactId}</name>
-  <description>My wonderfull scala app</description>
-  <inceptionYear>2010</inceptionYear>
+  <description>Spark Recruitment Challenge</description>
+  <inceptionYear>2022</inceptionYear>
   <licenses>
     <license>
-      <name>My License</name>
-      <url>http://....</url>
+      <name>MIT</name>
+      <url>https://mit-license.org/</url>
       <distribution>repo</distribution>
     </license>
   </licenses>
