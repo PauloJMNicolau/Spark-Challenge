@@ -15,4 +15,15 @@ case class WriteFiles(private val server : SparkSession) {
         .mode(SaveMode.Overwrite)
         .csv("files/" + fileName)
   }
+
+
+  def saveDataToParquet(df: DataFrame, fileName: String, compressao: String) = {
+    df.coalesce(1)
+      .write
+      .option("header", "true")
+      .option("encoder", "UTF-8")
+      .option("compression", compressao)
+      .mode(SaveMode.Overwrite)
+      .parquet("files/" + fileName)
+  }
 }

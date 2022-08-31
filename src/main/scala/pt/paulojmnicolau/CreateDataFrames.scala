@@ -1,7 +1,5 @@
 package pt.paulojmnicolau
 
-import org.apache.spark.sql.functions.col
-import org.apache.spark.sql.types.LongType
 import org.apache.spark.sql.{DataFrame, SparkSession}
 
 case class CreateDataFrames(server : SparkSession){

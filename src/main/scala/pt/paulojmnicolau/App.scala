@@ -48,19 +48,20 @@ object App {
   val df_2 = CreateDataFrames(server).createGooglePlayStoreBestAppDataFrame()
   val fileWriter = new WriteFiles(server)
   fileWriter.saveDataToCsv(df_2, "best_apps.csv", "§")
-  return df_2
+  df_2
  }
 
  //Executa Atividade 3
  def atividade3(server: SparkSession): DataFrame = {
   val df_3 = CreateDataFrames(server).createGooglePalyStoreDataFrame()
-  return df_3
+  df_3
  }
 
  def atividade4(server:SparkSession, dataFrames :Array[DataFrame] )={
-  dataFrames(0).orderBy(col("App").asc).show()
-  dataFrames(2).orderBy(col("App").asc).show()
-  dataFrames(0).as("df_1").join(dataFrames(2).as("df_3") , dataFrames(0)("App") === dataFrames(2)("App")).drop(col("df_3.App"))
+  val df = dataFrames(0).as("df_1").join(dataFrames(2).as("df_3") , dataFrames(0)("App") === dataFrames(2)("App")).drop(col("df_3.App"))
+  val fileWriter = new WriteFiles(server)
+  fileWriter.saveDataToParquet(df,"googleplaystore_cleaned","gzip")
+  df
  }
 
  /*def atividade5(server:SparkSession, dataFrames: Array[DataFrame]) : DataFrame ={
