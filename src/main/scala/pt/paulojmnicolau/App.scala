@@ -1,5 +1,6 @@
 package pt.paulojmnicolau
 
+import org.apache.spark.sql.functions.col
 import org.apache.spark.sql.{DataFrame, SparkSession}
 
 /**
@@ -13,12 +14,19 @@ object App {
 
   //Criar DataFrame Atividade 1
   dataFrames = dataFrames :+ atividade1(server)
-  dataFrames(0).show()
+  //dataFrames(0).show()
 
   //Cria DataFrame Atividade 2
   dataFrames = dataFrames :+ atividade2(server)
-  dataFrames(1).show()
+  //dataFrames(1).show()
 
+  dataFrames = dataFrames :+ atividade3(server)
+//  dataFrames(2).show()
+
+  dataFrames = dataFrames :+ atividade4(server, dataFrames)
+  dataFrames(3).show()
+
+//  atividade5(server, dataFrames).show()
   server.stop()                                 //Terminar Spark
  }
 
@@ -43,4 +51,23 @@ object App {
   return df_2
  }
 
+ //Executa Atividade 3
+ def atividade3(server: SparkSession): DataFrame = {
+  val df_3 = CreateDataFrames(server).createGooglePalyStoreDataFrame()
+  return df_3
+ }
+
+ def atividade4(server:SparkSession, dataFrames :Array[DataFrame] )={
+  dataFrames(0).orderBy(col("App").asc).show()
+  dataFrames(2).orderBy(col("App").asc).show()
+  dataFrames(0).as("df_1").join(dataFrames(2).as("df_3") , dataFrames(0)("App") === dataFrames(2)("App")).drop(col("df_3.App"))
+ }
+
+ /*def atividade5(server:SparkSession, dataFrames: Array[DataFrame]) : DataFrame ={
+   dataFrames(3).select(col("Genres")).reduce((linha, linha1) =>{
+    println(linha)
+    println(linha1)
+    linha
+   })
+ }*/
 }

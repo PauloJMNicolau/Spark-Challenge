@@ -1,5 +1,7 @@
 package pt.paulojmnicolau
 
+import org.apache.spark.sql.types.{ArrayType, DateType, DoubleType, LongType, StringType, StructField, StructType}
+
 //Mapeamento das colunas dos ficheiros para cada DataFrame
 case class MapeamentoColunas(){
 
@@ -20,8 +22,6 @@ case class MapeamentoColunas(){
       "Last Updated",
       "Current Ver",
       "Android Ver",
-      "_c11"
     )
-
 
 }

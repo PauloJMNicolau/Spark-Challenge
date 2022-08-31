@@ -26,15 +26,9 @@ case class ReadFiles(private val server : SparkSession) {
   }
 
   def getGooglePlayStore: DataFrame = try {
-    val colunas = MapeamentoColunas().getColunasGooglePlayStoreDf2()
-//    val tipos: StructType = new StructType()
-//      .add(colunas(2), DoubleType)
-//      .add(colunas(10), DateType)
-
     server.read
       .option("delimiter", ",")
       .option("header", "true")
-     // .schema(tipos)
       .csv("files/googleplaystore.csv")
   } catch {
     case _: FileNotFoundException => {
