@@ -6,6 +6,7 @@ import org.apache.spark.sql.{DataFrame, SaveMode, SparkSession}
 /**
  * @author Paulo Nicolau (paulojmnicolau)
  */
+//Funções de escrita de ficheiros
 case class WriteFiles(private val server : SparkSession) {
   def saveDataToCsv(df: DataFrame, fileName : String, delimiter:String)={
     val colunas = MapeamentoColunas().getColunasGooglePlayStoreDf2()
@@ -18,7 +19,6 @@ case class WriteFiles(private val server : SparkSession) {
         .mode(SaveMode.Overwrite)
         .csv("files/" + fileName)
   }
-
 
   def saveDataToParquet(df: DataFrame, fileName: String, compressao: String) = {
     df.coalesce(1)

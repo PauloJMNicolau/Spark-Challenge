@@ -9,6 +9,7 @@ import java.io.{FileNotFoundException, IOException}
 /**
  * @author Paulo Nicolau (paulojmnicolau)
  */
+//Funções de leitura dos ficheiros
 case class ReadFiles(private val server : SparkSession) {
 
   def getUserReviews: DataFrame = try {

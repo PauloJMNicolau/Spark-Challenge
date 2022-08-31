@@ -23,7 +23,7 @@ case class MapeamentoColunas(){
       "Genres",
       "Last Updated",
       "Current Ver",
-      "Android Ver",
+      "Android Ver"
     )
 
 }

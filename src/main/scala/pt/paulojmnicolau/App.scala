@@ -14,20 +14,21 @@ object App {
 
   //Criar DataFrame Atividade 1
   dataFrames = dataFrames :+ atividade1(server)
-  //dataFrames(0).show()
+  dataFrames(0).show()
 
   //Cria DataFrame Atividade 2
   dataFrames = dataFrames :+ atividade2(server)
-  //dataFrames(1).show()
-/**
- * @author Paulo Nicolau (paulojmnicolau)
- */
-  dataFrames = dataFrames :+ atividade3(server)
-//  dataFrames(2).show()
+  dataFrames(1).show()
 
+  //Cria DataFrame Atividade 3
+  dataFrames = dataFrames :+ atividade3(server)
+  dataFrames(2).show()
+
+  //Cria DataFrame Atividade 4
   dataFrames = dataFrames :+ atividade4(server, dataFrames)
   dataFrames(3).show()
 
+  //Cria DataFrame Atividade 5
   atividade5(server, dataFrames).show()
   server.stop()                                 //Terminar Spark
  }
@@ -60,13 +61,13 @@ object App {
  }
 
  def atividade4(server:SparkSession, dataFrames :Array[DataFrame] )={
-  val df = dataFrames(0).as("df_1").join(dataFrames(2).as("df_3") , dataFrames(0)("App") === dataFrames(2)("App")).drop(col("df_3.App"))
+  val df = CreateDataFrames(server).createJoinDataframe(dataFrames(0), dataFrames(2))
   val fileWriter = new WriteFiles(server)
   fileWriter.saveDataToParquet(df,"googleplaystore_cleaned","gzip")
   df
  }
 
  def atividade5(server:SparkSession, dataFrames: Array[DataFrame]) : DataFrame ={
-   dataFrames(3).
+   dataFrames(3).groupBy("App").pivot("Genres").count()
  }
 }
