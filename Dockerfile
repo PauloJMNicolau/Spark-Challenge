@@ -10,3 +10,4 @@ RUN tar -xvf spark-3.3.0-bin-hadoop3-scala2.13.tgz
 RUN wget  https://github.com/bdu-xpand-it/BDU-Recruitment-Challenges/raw/master/google-play-store-apps.zip
 RUN mkdir files
 RUN unzip google-play-store-apps.zip -d files
+
