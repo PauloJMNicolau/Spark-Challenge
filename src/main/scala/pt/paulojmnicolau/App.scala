@@ -74,4 +74,5 @@ object App {
   fileWriter.saveDataToParquet(df,"googleplaystore_metrics","gzip")
   df
  }
+
 }
